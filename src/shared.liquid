@@ -6,6 +6,14 @@
 </svg>
 {%- endcapture %}
 
+{% assign ai_product_name = 'Premium Requests' %}
+{% comment %}After June 1, 2026, the name changes to 'GitHub AI Credits'{% endcomment %}
+{%- assign _cur_year = 0 | days_ago | date: "%Y" | plus: 0 -%}
+{%- assign _cur_month = 0 | days_ago | date: "%-m" | plus: 0 -%}
+{%- if _cur_year > 2026 or _cur_year == 2026 and _cur_month >= 6 -%}
+{% assign ai_product_name = 'GitHub AI Credits' %}
+{%- endif -%}
+
 {% assign date_string = IDX_1.timePeriod.year | append: '-' | append: IDX_1.timePeriod.month | append: '-01' %}
 {% assign github_user = IDX_0 %}
 {% assign current_month = IDX_1 %}
