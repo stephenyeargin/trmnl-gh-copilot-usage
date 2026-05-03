@@ -2,29 +2,57 @@
 strategy: polling
 no_screen_padding: 'no'
 dark_mode: 'no'
-framework_version: latest
 static_data: ''
 polling_verb: get
-polling_url: 'https://api.vercel.app/blog'
-polling_headers: 'content-type=application/json'
-name: Plugin Template
-refresh_interval: 1440
+framework_version: latest
+serverless_language: 
+polling_url: |
+  {%- assign current_month = 0 | days_ago | date: "%-m" | plus: 0 -%}
+  {%- assign current_year = 0 | days_ago | date: "%Y" | plus: 0 -%}
+  https://api.github.com/user
+  https://api.github.com/users/{{ github_username }}/settings/billing/premium_request/usage
+  https://api.github.com/users/{{ github_username }}/settings/billing/premium_request/usage?month={% if current_month == 1 %}12{% else %}{{ current_month | minus: 1 }}{% endif %}&year={% if current_month == 1 %}{{ current_year | minus: 1 }}{% else %}{{ current_year }}{% endif %}
+polling_headers: accept=application/vnd.github+json&authorization=Bearer%20{{ github_access_token }}&x-github-api-version=2026-03-10
+polling_body: 
+id: 298373
 custom_fields:
 - keyname: author_bio
   name: About This Plugin
   field_type: author_bio
-  description: This is template text you should probably update 😁
-  github_url: https://github.com/
-  learn_more_url: https://trmnl.com/
-  email_address: email@example.com
-- keyname: example_string
-  field_type: string
-  name: A Configurable String
-  description: Save some data here for use in URLs or controlling the display
-  placeholder: An Example Value
-- keyname: example_secret
+  description: Show your GitHub Copilot Premium Request usage for the month.
+  github_url: https://github.com/stephenyeargin/trmnl-gh-copilot-usage
+  learn_more_url: https://github.com/features/copilot
+  email_address: stephen@yearg.in
+- keyname: github_access_token
   field_type: password
-  name: A Secret String
-  description: You should mask any sensitive information, like API keys
-  placeholder: an-example-value
-
+  name: GitHub Access Token
+  description: Fine-grained PAT must have Plan (read) user permission
+  placeholder: github_pat_xxxxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  optional: false
+- keyname: github_username
+  field_type: string
+  name: GitHub Username
+  description: Username for the account that owns the Copilot plan billed by this token
+  placeholder: octocat
+  optional: false
+- keyname: github_premium_request_budget
+  field_type: number
+  name: Premium Request Budget
+  description: Number of Premium Request included in your plan
+  placeholder: 300
+  default: 300
+  optional: false
+- keyname: github_show_details
+  field_type: boolean
+  name: Show Consumption Details
+  description: When enabled, shows a detailed table of usage in Full view
+  default: true
+  optional: true
+- keyname: github_show_previous_month
+  field_type: boolean
+  name: Show Previous Month Consumption
+  description: When enabled, shows a second meter for the prior month
+  default: false
+  optional: true
+name: GitHub Copilot Usage
+refresh_interval: 30

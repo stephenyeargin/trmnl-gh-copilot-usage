@@ -1,4 +1,6 @@
-# TRMNL Plugin
+# GitHub Copilot Usage
+
+[![Build and Release](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml/badge.svg)](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml)
 
 ![screenshot](assets/screenshot.png)
 

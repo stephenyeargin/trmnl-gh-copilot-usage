@@ -1,33 +1,21 @@
-<div class="layout layout--row">
-  <div
-    class="columns"
-    data-overflow="true"
-    data-overflow-max-cols-portrait="1"
-    data-overflow-max-cols="2"
-    data-overflow-counter="true"
-  >
-    <div class="column">
-      {% for item in data %}
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content flex flex--row flex--top gap--medium lg:gap--large">
-          <div class="w--[66cqw]">
-            <div><span class="title title--small lg:title--base" data-clamp="1">{{ item.title }}</span></div>
-            <div><span class="label label--small lg:label--base">by {{ item.author }} | {{ item.category }}</span></div>
-            <div><span class="description lg:description--large" data-clamp="2">{{ item.content }}</span></div>
-          </div>
-          <div class="w--[34cqw]">
-            <img class="image image-dither image--cover w--28 lg:w--32" src="https://placehold.co/600x400/000000/FFF?text={{ item.category }}" />
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
+<div class="layout layout--row layout--middle">
+  {% render 'usage_meter', trmnl: trmnl, month_usage: current_month, title: 'Premium Requests' %}
 </div>
+
+{% if trmnl.plugin_settings.custom_fields_values.github_show_details == "true" %}
+<div class="layout layout--row layout--top layout--stretch-y pb--5">
+  {% render 'detail_table', trmnl: trmnl, month_usage: current_month %}
+</div>
+{% endif %}
+
+{% if trmnl.plugin_settings.custom_fields_values.github_show_previous_month == "true" %}
+<div class="layout layout--row layout--middle">
+  {% render 'usage_meter', trmnl: trmnl, month_usage: previous_month, title: 'Previous Month' %}
+</div>
+{% endif %}
 
 <div class="title_bar">
   <img class="image image-stroke--medium" src="data:image/svg+xml;base64,{{ logo_svg | base64_encode }}" />
-  <span class="title">Plugin Template</span>
-  <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="title">GitHub Copilot Usage for {{ date_string | date: '%B %Y' }}</span>
+  <span class="instance">@{{ github_user.login }}</span>
 </div>

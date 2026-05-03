@@ -7,12 +7,18 @@ watch:
   - src
 
 # values of custom fields (defined in src/settings.yml)
-custom_fields: {}
+custom_fields: {
+  github_username: stephenyeargin,
+  github_access_token: "{{ env.GITHUB_ACCESS_TOKEN }}",
+  github_premium_request_budget: 300,
+  github_show_details: "true",
+  github_show_previous_month: "false"
+}
 
 # override variables
 variables:
   trmnl: {
     plugin_settings: {
-      instance_name: 'My Instance'
+      instance_name: 'GitHub Copilot Usage'
     }
   }
