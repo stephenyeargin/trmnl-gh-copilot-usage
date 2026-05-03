@@ -46,7 +46,7 @@ custom_fields:
 - keyname: github_show_details
   field_type: boolean
   name: Show Consumption Details
-  description: When enabled, shows a detailed table of usage in Full view
+  description: When enabled, shows a detailed table of usage in certain views
   default: true
   optional: true
 - keyname: github_show_previous_month

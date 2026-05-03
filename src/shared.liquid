@@ -32,7 +32,7 @@
 <div class="progress-bar progress-bar--large w--full">
   <div class="content">
     <span class="label">{{ title }} ({{ consumed | round: 2 }} of {{ budget }})</span>
-    <span class="value value--xxsmall">
+    <span class="value value--xxsmall value--tnums">
       {{ percent_consumed | round: 2 }}%
     </span>
   </div>
@@ -52,27 +52,21 @@
 <table class="table table--xsmall lg:table--condensed" data-table-limit="true">
   <thead>
     <tr>
-      <th><span class="title title--small lg:title--base">Model</span></th>
-      <th><span class="title title--small lg:title--base">Price/Unit</span></th>
-      <th><span class="title title--small lg:title--base">Quantity</span></th>
-      <th><span class="title title--small lg:title--base">Amount</span></th>
-      <th><span class="title title--small lg:title--base">Discount Qty.</span></th>
-      <th><span class="title title--small lg:title--base">Discount</span></th>
-      <th><span class="title title--small lg:title--base">Net Qty.</span></th>
-      <th><span class="title title--small lg:title--base">Amount</span></th>
+      <th class="text--left"><span class="title title--small">Model</span></th>
+      <th class="text--center"><span class="title title--small">Usage</span></th>
+      <th class="text--center"><span class="title title--small">Cost</span></th>
+      <th class="text--center"><span class="title title--small">Discount</span></th>
+      <th class="text--center"><span class="title title--small">Final</span></th>
     </tr>
   </thead>
   <tbody>
     {% for usage in month_usage.usageItems %}
     <tr>
       <td class="text--left"><span class="label label--small lg:label--base" data-clamp="1">{{ usage.model }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.pricePerUnit | number_to_currency }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.grossQuantity | round: 1 }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.grossAmount | number_to_currency }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.discountQuantity | round: 1 }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.discountAmount | number_to_currency  }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.netQuantity | round: 1 }}</span></td>
-      <td class="text--right"><span class="label label--small lg:label--base">{{ usage.netAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base">{{ usage.grossQuantity | round: 1 }} @ {{ usage.pricePerUnit | number_to_currency }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{{ usage.grossAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{% if usage.discountAmount > 0 %}-{% endif %}{{ usage.discountAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1 bg--gray-7"><span class="label label--small lg:label--base value--tnums text-stroke text-stroke--medium font--bold">{{ usage.netAmount | number_to_currency }}</span></td>
     </tr>
     {% else %}
     <tr>
