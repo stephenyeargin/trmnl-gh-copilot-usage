@@ -23,7 +23,7 @@ custom_fields:
   github_url: https://github.com/stephenyeargin/trmnl-gh-copilot-usage
   learn_more_url: https://github.com/features/copilot
   email_address: stephen@yearg.in
-  category: programming,productivity,kpi,analytics
+  category: programming,productivity
 - keyname: github_access_token
   field_type: password
   name: GitHub Access Token
