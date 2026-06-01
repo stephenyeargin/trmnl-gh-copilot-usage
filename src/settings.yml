@@ -5,13 +5,14 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: latest
-serverless_language: 
+serverless_language: node
 polling_url: |
   {%- assign current_month = 0 | days_ago | date: "%-m" | plus: 0 -%}
   {%- assign current_year = 0 | days_ago | date: "%Y" | plus: 0 -%}
   https://api.github.com/user
-  https://api.github.com/users/{{ github_username }}/settings/billing/premium_request/usage
-  https://api.github.com/users/{{ github_username }}/settings/billing/premium_request/usage?month={% if current_month == 1 %}12{% else %}{{ current_month | minus: 1 }}{% endif %}&year={% if current_month == 1 %}{{ current_year | minus: 1 }}{% else %}{{ current_year }}{% endif %}
+  https://api.github.com/users/{{ github_username }}/settings/billing/usage/summary?product=copilot
+  https://api.github.com/users/{{ github_username }}/settings/billing/usage/summary?product=copilot&month={% if current_month == 1 %}12{% else %}{{ current_month | minus: 1 }}{% endif %}&year={% if current_month == 1 %}{{ current_year | minus: 1 }}{% else %}{{ current_year }}{% endif %}
+  https://api.github.com/users/{{ github_username }}/settings/billing/usage
 polling_headers: accept=application/vnd.github+json&authorization=Bearer%20{{ github_access_token }}&x-github-api-version=2026-03-10
 polling_body: 
 id: 298373
@@ -19,7 +20,7 @@ custom_fields:
 - keyname: author_bio
   name: About This Plugin
   field_type: author_bio
-  description: Show your GitHub Copilot Premium Request usage for the month.
+  description: Show your GitHub Copilot AI Credit usage for the month.
   github_url: https://github.com/stephenyeargin/trmnl-gh-copilot-usage
   learn_more_url: https://github.com/features/copilot
   email_address: stephen@yearg.in
@@ -36,17 +37,17 @@ custom_fields:
   description: Username for the account that owns the Copilot plan billed by this token
   placeholder: octocat
   optional: false
-- keyname: github_premium_request_budget
+- keyname: github_ai_credit_budget
   field_type: number
-  name: Premium Request Budget
-  description: Number of Premium Request included in your plan
-  placeholder: 300
-  default: 300
+  name: AI Credits Budget
+  description: Number of AI Credits included in your monthly plan (1 AI Credit = $0.01)
+  placeholder: 1000
+  default: 1000
   optional: false
 - keyname: github_show_details
   field_type: boolean
-  name: Show Consumption Details
-  description: When enabled, shows a detailed table of usage in certain views
+  name: Show Monthly History
+  description: When enabled, shows a monthly usage history table in certain views
   default: true
   optional: true
 - keyname: github_show_previous_month

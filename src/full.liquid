@@ -4,7 +4,7 @@
 
 {% if trmnl.plugin_settings.custom_fields_values.github_show_details == "true" %}
 <div class="layout layout--row layout--top layout--stretch-y pb--5">
-  {% render 'detail_table', trmnl: trmnl, month_usage: current_month %}
+  {% render 'history_table', history: history %}
 </div>
 {% endif %}
 

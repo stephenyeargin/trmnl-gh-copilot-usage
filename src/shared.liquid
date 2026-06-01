@@ -6,23 +6,18 @@
 </svg>
 {%- endcapture %}
 
-{% assign ai_product_name = 'Premium Requests' %}
-{% comment %}After June 1, 2026, the name changes to 'GitHub AI Credits'{% endcomment %}
-{%- assign _cur_year = 0 | days_ago | date: "%Y" | plus: 0 -%}
-{%- assign _cur_month = 0 | days_ago | date: "%-m" | plus: 0 -%}
-{%- if _cur_year > 2026 or _cur_year == 2026 and _cur_month >= 6 -%}
 {% assign ai_product_name = 'GitHub AI Credits' %}
-{%- endif -%}
 
 {% assign date_string = IDX_1.timePeriod.year | append: '-' | append: IDX_1.timePeriod.month | append: '-01' %}
 {% assign github_user = IDX_0 %}
 {% assign current_month = IDX_1 %}
 {% assign previous_month = IDX_2 %}
+{% assign history = IDX_3 %}
 
 {% template usage_meter %}
 {% assign consumed = 0 %}
 {% assign overage = 0 %}
-{% assign budget = trmnl.plugin_settings.custom_fields_values.github_premium_request_budget | default: 100 | plus: 0 %}
+{% assign budget = trmnl.plugin_settings.custom_fields_values.github_ai_credit_budget | default: 100 | plus: 0 %}
 {% for usage in month_usage.usageItems %}
   {% assign consumed = consumed | plus: usage.grossQuantity %}
   {% assign overage = overage | plus: usage.netAmount %}
@@ -38,8 +33,8 @@
   </div>
   <div class="track">
     {% assign extra_fill = '' %}
-    {% if percent_consumed > 75 %}{% assign extra_fill = 'bg--warning' %}{% endif %}
-    {% if percent_consumed > 90 %}{% assign extra_fill = 'bg--error' %}{% endif %}
+    {% if percent_consumed > 75 %}{% assign extra_fill = 'bg--yellow' %}{% endif %}
+    {% if percent_consumed > 90 %}{% assign extra_fill = 'bg--red' %}{% endif %}
     <div class="fill {{ extra_fill }}" style="width: {{ percent_consumed | plus: 1 }}%">
       {% if overage > 0 %}
       <span class="label label--base px--2 py--1 text-stroke text-stroke--medium">Overage: {{ overage | number_to_currency }}</span>
@@ -48,11 +43,11 @@
 </div>
 {% endtemplate %}
 
-{% template detail_table %}
-<table class="table table--xsmall lg:table--condensed" data-table-limit="true">
+{% template history_table %}
+<table class="table table--xsmall lg:table--condensed" data-table-limit="true" table-overflow-counter="false">
   <thead>
     <tr>
-      <th class="text--left"><span class="title title--small">Model</span></th>
+      <th class="text--left"><span class="title title--small">Month</span></th>
       <th class="text--center"><span class="title title--small">Usage</span></th>
       <th class="text--center"><span class="title title--small">Cost</span></th>
       <th class="text--center"><span class="title title--small">Discount</span></th>
@@ -60,17 +55,17 @@
     </tr>
   </thead>
   <tbody>
-    {% for usage in month_usage.usageItems %}
+    {% for month in history %}
     <tr>
-      <td class="text--left"><span class="label label--small lg:label--base" data-clamp="1">{{ usage.model }}</span></td>
-      <td class="text--right pr--1"><span class="label label--small lg:label--base">{{ usage.grossQuantity | round: 1 }} @ {{ usage.pricePerUnit | number_to_currency }}</span></td>
-      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{{ usage.grossAmount | number_to_currency }}</span></td>
-      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{% if usage.discountAmount > 0 %}-{% endif %}{{ usage.discountAmount | number_to_currency }}</span></td>
-      <td class="text--right pr--1 bg--gray-7"><span class="label label--small lg:label--base value--tnums text-stroke text-stroke--medium font--bold">{{ usage.netAmount | number_to_currency }}</span></td>
+      <td class="text--left"><span class="label label--small lg:label--base" data-clamp="1">{{ month.date | date: '%b %Y' }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base">{{ month.quantity | round: 1 }} {{ month.unitType }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{{ month.grossAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{% if month.discountAmount > 0 %}-{% endif %}{{ month.discountAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1 bg--gray-7"><span class="label label--small lg:label--base value--tnums text-stroke text-stroke--medium font--bold">{{ month.netAmount | number_to_currency }}</span></td>
     </tr>
     {% else %}
     <tr>
-      <td class="text--center py--10" colspan="99"><span class="title title--base">No data for given month.</span></td>
+      <td class="text--center py--10" colspan="99"><span class="title title--base">No history available.</span></td>
     </tr>
     {% endfor %}
   </tbody>
