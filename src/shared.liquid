@@ -33,8 +33,8 @@
   </div>
   <div class="track">
     {% assign extra_fill = '' %}
-    {% if percent_consumed > 75 %}{% assign extra_fill = 'bg--yellow' %}{% endif %}
-    {% if percent_consumed > 90 %}{% assign extra_fill = 'bg--red' %}{% endif %}
+    {% if percent_consumed > 75 %}{% assign extra_fill = 'bg--warning' %}{% endif %}
+    {% if percent_consumed > 90 %}{% assign extra_fill = 'bg--error' %}{% endif %}
     <div class="fill {{ extra_fill }}" style="width: {{ percent_consumed | plus: 1 }}%">
       {% if overage > 0 %}
       <span class="label label--base px--2 py--1 text-stroke text-stroke--medium">Overage: {{ overage | number_to_currency }}</span>
