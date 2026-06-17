@@ -10,7 +10,7 @@ watch:
 custom_fields: {
   github_username: stephenyeargin,
   github_access_token: "{{ env.GITHUB_ACCESS_TOKEN }}",
-  github_ai_credit_budget: 1000,
+  github_ai_credit_budget: 1500,
   github_show_details: "true",
   github_show_previous_month: "false"
 }
