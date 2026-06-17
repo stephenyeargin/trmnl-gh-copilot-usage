@@ -1,6 +1,6 @@
 # TRMNL GitHub Copilot Usage
 
-[![Build and Release](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml/badge.svg)](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml)
+[![Build and Release](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml/badge.svg)](https://github.com/stephenyeargin/trmnl-gh-copilot-usage/actions/workflows/build.yml) [![TRMNL Recipe Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=298373)](https://trmnl.com/recipes/298373)
 
 ![promo](assets/promo.png)
 
