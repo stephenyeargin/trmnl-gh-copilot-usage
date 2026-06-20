@@ -13,6 +13,7 @@ polling_url: |
   https://api.github.com/users/{{ github_username }}/settings/billing/usage/summary?product=copilot
   https://api.github.com/users/{{ github_username }}/settings/billing/usage/summary?product=copilot&month={% if current_month == 1 %}12{% else %}{{ current_month | minus: 1 }}{% endif %}&year={% if current_month == 1 %}{{ current_year | minus: 1 }}{% else %}{{ current_year }}{% endif %}
   https://api.github.com/users/{{ github_username }}/settings/billing/usage
+  https://api.github.com/users/{{ github_username }}/settings/billing/ai_credit/usage
 polling_headers: accept=application/vnd.github+json&authorization=Bearer%20{{ github_access_token }}&x-github-api-version=2026-03-10
 polling_body: 
 id: 298373
@@ -44,11 +45,14 @@ custom_fields:
   placeholder: 1000
   default: 1000
   optional: false
-- keyname: github_show_details
-  field_type: boolean
-  name: Show Monthly History
-  description: When enabled, shows a monthly usage history table in certain views
-  default: true
+- keyname: github_table_view
+  field_type: select
+  name: Table View
+  options:
+  - Model Usage: model_usage
+  - Billing History: billing_history
+  - None: none
+  default: model_usage
   optional: true
 - keyname: github_show_previous_month
   field_type: boolean

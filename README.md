@@ -4,9 +4,11 @@
 
 ![promo](assets/promo.png)
 
-### Screenshot
+### Screenshots
 
 ![screenshot](assets/screenshot.png)
+
+![screenshot-2](assets/screenshot-2.png)
 
 ## Development
 

@@ -13,6 +13,7 @@
 {% assign current_month = IDX_1 %}
 {% assign previous_month = IDX_2 %}
 {% assign history = IDX_3 %}
+{% assign model_usage = IDX_4 %}
 
 {% template usage_meter %}
 {% assign consumed = 0 %}
@@ -41,6 +42,35 @@
       {% endif %}</div>
   </div>
 </div>
+{% endtemplate %}
+
+{% template model_usage_table %}
+<table class="table table--xsmall lg:table--condensed" data-table-limit="true" table-overflow-counter="true">
+  <thead>
+    <tr>
+      <th class="text--left"><span class="title title--small">Model</span></th>
+      <th class="text--center"><span class="title title--small">Usage</span></th>
+      <th class="text--center"><span class="title title--small">Cost</span></th>
+      <th class="text--center"><span class="title title--small">Discount</span></th>
+      <th class="text--center"><span class="title title--small">Final</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in model_usage %}
+    <tr>
+      <td class="text--left"><span class="label label--small lg:label--base" data-clamp="1">{{ row.model }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base">{{ row.grossQuantity | round: 1 }} {{ row.unitType }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{{ row.grossAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1"><span class="label label--small lg:label--base value--tnums">{% if row.discountAmount > 0 %}-{% endif %}{{ row.discountAmount | number_to_currency }}</span></td>
+      <td class="text--right pr--1 bg--gray-7"><span class="label label--small lg:label--base value--tnums text-stroke text-stroke--medium font--bold">{{ row.netAmount | number_to_currency }}</span></td>
+    </tr>
+    {% else %}
+    <tr>
+      <td class="text--center py--10" colspan="99"><span class="title title--base">No usage data available.</span></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endtemplate %}
 
 {% template history_table %}

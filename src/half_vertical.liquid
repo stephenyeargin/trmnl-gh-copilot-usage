@@ -2,7 +2,12 @@
   {% render 'usage_meter', trmnl: trmnl, month_usage: current_month, title: ai_product_name %}
 </div>
 
-{% if trmnl.plugin_settings.custom_fields_values.github_show_details == "true" %}
+{% assign table_view = trmnl.plugin_settings.custom_fields_values.github_table_view | default: 'model_usage' %}
+{% if table_view == 'model_usage' %}
+<div class="layout layout--row layout--top layout--stretch-y pb--5 hidden lg:visible">
+  {% render 'model_usage_table', model_usage: model_usage %}
+</div>
+{% elsif table_view == 'billing_history' %}
 <div class="layout layout--row layout--top layout--stretch-y pb--5 hidden lg:visible">
   {% render 'history_table', history: history %}
 </div>

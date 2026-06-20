@@ -7,7 +7,7 @@ function pickUsageItem(item) {
   return {
     model: item?.model ?? item?.sku,
     sku: item?.sku,
-    unitType: item?.unitType,
+    unitType: friendlyUnitType(item?.unitType),
     pricePerUnit: toNumber(item?.pricePerUnit),
     grossQuantity: toNumber(item?.grossQuantity),
     grossAmount: toNumber(item?.grossAmount),
@@ -42,7 +42,7 @@ function pickMonthUsage(monthUsage) {
 }
 
 function friendlyUnitType(raw) {
-  const map = { AICredits: 'AI Credits', Requests: 'Requests' };
+  const map = { 'ai-credits': 'AI Credits', AICredits: 'AI Credits', Requests: 'Requests' };
   return map[raw] ?? raw;
 }
 
@@ -83,18 +83,32 @@ function pickHistory(usageData) {
   return Object.values(byMonth).sort((a, b) => b.date.localeCompare(a.date));
 }
 
+function pickModelUsage(data) {
+  const usageItems = Array.isArray(data?.usageItems)
+    ? data.usageItems
+    : Array.isArray(data?.data?.usageItems)
+      ? data.data.usageItems
+      : [];
+  const items = usageItems.map(pickUsageItem);
+  items.sort((a, b) => {
+    if (b.netAmount !== a.netAmount) return b.netAmount - a.netAmount;
+    return b.grossAmount - a.grossAmount;
+  });
+  return items;
+}
+
 function transform(input) {
   const githubUser = input?.IDX_0 ?? {};
   const currentMonth = pickMonthUsage(input?.IDX_1 ?? {});
   const previousMonth = pickMonthUsage(input?.IDX_2 ?? {});
   const history = pickHistory(input?.IDX_3 ?? {});
+  const modelUsage = pickModelUsage(input?.IDX_4 ?? {});
 
   return {
-    IDX_0: {
-      login: githubUser?.login,
-    },
+    IDX_0: { login: githubUser?.login },
     IDX_1: currentMonth,
     IDX_2: previousMonth,
     IDX_3: history,
+    IDX_4: modelUsage,
   };
 }
