@@ -74,5 +74,5 @@ custom_fields:
   default: false
   optional: true
 name: GitHub Copilot Usage
-description: Track GitHub Copilot premium request usage and budget
+description: Monthly AI credit budget tracker
 refresh_interval: 30
