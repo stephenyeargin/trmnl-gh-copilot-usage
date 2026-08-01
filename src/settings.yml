@@ -74,4 +74,5 @@ custom_fields:
   default: false
   optional: true
 name: GitHub Copilot Usage
+description: Track GitHub Copilot premium request usage and budget
 refresh_interval: 30
